@@ -8,8 +8,18 @@ import java.net.URL;
 public class CatDownloader {
 
     public static void main(String[] args) throws IOException {
-        int number;
-        int partnamedownloadfile =0;
+        int ChooseNumber;
+        int CounterDownloadFile =0;
+        final int Enum1 =1;
+        final int Enum2 =2;
+        final int Enum3 =3;
+        final int Enum4 =4;
+
+
+        String LocalPath = "\"./src/test/\"";
+        String URLPath[] = {"\"https://cataas.com/cat\"", "\"https://cataas.com/cat/cute\"",
+                "\"https://cataas.com/cat/gif\"", "\"https://cataas.com/cat/says/hello\""};
+
 
         System.out.println("Choose what with cat you want and write number");
         System.out.println("1 - random photo");
@@ -20,31 +30,31 @@ public class CatDownloader {
 
         while (true){
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            number = Integer.parseInt(br.readLine());
-            if (number == 0) break;
+            ChooseNumber = Integer.parseInt(br.readLine());
+            if (ChooseNumber == 0) break;
             else {
-                String str2 = Integer.toString(partnamedownloadfile);
-                partnamedownloadfile++;
+                String NameFile = Integer.toString(CounterDownloadFile);
+                CounterDownloadFile++;
 
-                switch (number) {
-                    case 1:
+                switch (ChooseNumber) {
+                    case Enum1:
 
-                        downloadFiles("https://cataas.com/cat", "./src/test" + str2 + ".jpg", 1);
+                        downloadFiles(URLPath[0],  LocalPath + NameFile + ".jpg");
                         break;
-                    case 2:
+                    case Enum2:
 
-                        downloadFiles("https://cataas.com/cat/cute", "./src/test" + str2 + ".jpg", 1);
+                        downloadFiles(URLPath[1], LocalPath + NameFile + ".jpg");
 
                         break;
-                    case 3:
+                    case Enum3:
 
-                        downloadFiles("https://cataas.com/cat/gif", "./src/test" + str2 + ".gif", 1);
+                        downloadFiles(URLPath[2], LocalPath + NameFile + ".gif");
                         break;
-                    case 4:
-                        downloadFiles("https://cataas.com/cat/says/hello", "./src/test"+ str2 +".jpg", 1);
+                    case Enum4:
+                        downloadFiles(URLPath[3], LocalPath+ NameFile +".jpg");
                         break;
                     default:
-                        System.out.println("Write correct number");
+                        System.out.println(" Write correct number between 0 and 4 ");
 
                 }
 
@@ -52,7 +62,7 @@ public class CatDownloader {
         }
     }
 
-        public static void downloadFiles(String strURL, String strPath, int buffSize)  {
+        private static void downloadFiles(String strURL, String strPath)  {
 
             try  (OutputStream writer = new FileOutputStream(strPath))
             {
@@ -63,17 +73,17 @@ public class CatDownloader {
 
                 try (InputStream in = urlconn.getInputStream())
                 {
-                    byte buffer[] = new byte[buffSize];
-                    int c = in.read(buffer);
+                    byte buffer[] = new byte[1];
+                    int reader = in.read(buffer);
                     do {
-                        writer.write(buffer, 0, c);
-                        c = in.read(buffer);
-                    } while (c > 0);
+                        writer.write(buffer, 0, reader);
+                        reader = in.read(buffer);
+                    } while (reader > 0);
                     writer.flush();
                 }
 
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
                 System.out.println("Problem with download file");
             }
         }
